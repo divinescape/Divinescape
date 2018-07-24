@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+<link href ="style.css" rel="stylesheet">
+<meta name="viewport" content"width=device-width, initial-scale=1.0">
+<script src ="code.js"></script>
+</head>
+
+<body onload="UserAction()">
+
+<div class="neighborhood">
+    
+   <div class="house1">My tuts js</div>
+   <div class="house2">Question:
+       <div class="input-1"><p style="font-family:'Myriad Pro','sans-serif'; font-size:10.0pt; color:rgb(108, 190, 15); margin-top:30px; ">Enter in First name:
+</p><input id="txtFirstName" type="text"placeholder="firstname"></div> <div class="input-2"><p style="font-family:'Myriad Pro','sans-serif'; font-size:10.0pt; color:rgb(108, 190, 15); margin-top:30px; ">Enter in Last name:
+</p><input id="txtLastName" type="text" placeholder = "lastname"></div> <div class="input-3"><p style="font-family:'Myriad Pro','sans-serif'; font-size:10.0pt; color:rgb(108, 190, 15); margin-top:30px; ">Enter in your birthdate:
+</p><input type="text" id="txtYear"  placeholder ="Year when you were born" /><span id="Age"></span></div><button value="calculate" onclick= "addRow(this);" onsubmit= "checkforblank();">Submit</button></div>
+
+    <div class="house3"><table id="sampleTable" border="1" table align="center">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th></th>
+            </tr>
+
+
+            </table>
+            </div>
+   <div class="house4">
+<div id="tempInfo">
+
+</div>
+
+   </div>
+</div>
+
+ <script>
+
+    function UserAction() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=61611,US&appid=196d536d2b1a27d67591b21d2488d7ee&units=imperial",true);
+    xhttp.onreadystatechange = function() {//Call a function when the state changes.
+        if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+            var response = JSON.parse(xhttp.responseText);
+            document.getElementById('tempInfo').innerText= response.main.temp;
+        }
+    }
+    xhttp.send();
+}
+    function addRow() {
+        if (AreControlsEmpty() == false) {
+            var age =0;
+            var curYear = new Date().getUTCFullYear();
+            var birthYear = document.getElementById('txtYear').value;
+
+            if(isNumeric(birthYear))
+            {
+                age = curYear - birthYear;
+            }
+
+            var txtFirstName = document.getElementById('txtFirstName').value;
+            var txtLastName = document.getElementById('txtLastName').value;
+
+            var table = document.getElementById('sampleTable');
+
+            var newRow = table.insertRow(0);
+
+            var cel1 = newRow.insertCell(0);
+            var cel3 = newRow.insertCell(1);
+            var cel4 = newRow.insertCell(2);
+
+            cel1.innerHTML = txtFirstName + " " + txtLastName;
+            cel3.innerHTML = age;
+            cel4.innerHTML = "<input type='button' onclick= 'deleteRow(this);' value='Delete'/>";
+
+            newRow.append(cel1);
+            newRow.append(cel3);
+            newRow.append(cel4);
+
+            table.append(newRow);
+
+            clearmycontrols();
+        } else {
+            var msg = "Please ensure that all information has been entered.";
+            alert(msg);
+        }
+
+    }
+    function deleteRow(btn)
+    {
+        var x=window.confirm("Are you sure you want to delete this?")
+        if (x){
+            var parentRow = btn.parentNode.parentNode;
+            var parentTable = parentRow.parentNode;
+            
+            parentTable.removeChild(parentRow);
+        }
+
+    }
+    function isNumeric(n)
+    {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    function clearmycontrols() {
+        document.getElementById('txtYear').value = "";
+        document.getElementById('txtFirstName').value = "";
+        document.getElementById('txtLastName').value = "";
+    }
+    function AreControlsEmpty() {
+        var errormessage = "";
+        if (document.getElementById('txtYear').value == "") {
+            return true;
+        }
+        if (document.getElementById('txtFirstName').value == "") {
+            return true;
+        }
+        if (document.getElementById('txtLastName').value == "") {
+            return true;
+        }
+        
+        return false;
+    }
+
+</script>
+
+
+</body>
+
+</html>

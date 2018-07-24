@@ -1,0 +1,38 @@
+.house1 { grid-area: house1; }
+.house2 { grid-area: house2; }
+.house3 { grid-area: house3; }
+.house4 { grid-area: house4; }
+
+
+.neighborhood 
+{
+    display: grid;
+    grid-template-areas: 
+    'house1 house1 house1'
+    'house2 house3 house4';
+    background-color: #aff3ff;
+    grid-gap:10px;
+    padding: 10px;
+
+}
+.neighborhood > div
+{
+   font-size:30px;
+   background-color: rgb(0, 110, 255);
+   padding:20px 0;
+   text-align:center;
+}
+.input-1 
+{
+    padding:6px;
+}
+.input-2
+{
+    padding:10px;
+
+}
+.input-3
+{
+padding:10px;
+
+}
